@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ColegioRM.ModelsE.Cursos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <style>
+        body {
+            background-image: url("~/img/escudo.png");
+            background-color: #93B874;
+        }
+    </style>
+
+
+    <h2 class="text-success"><span class="glyphicon glyphicon-asterisk">  Cursos</span></h2>
+
+    <p>
+        @Html.ActionLink("Nuevo Curso", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.codCurso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nomCurso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.grado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.seccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alumnos.codAlumno)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.codCurso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nomCurso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.grado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.seccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Alumnos.codAlumno)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.idCurso }) |
+                    @Html.ActionLink("Ver", "Details", new { id = item.idCurso }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.idCurso })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

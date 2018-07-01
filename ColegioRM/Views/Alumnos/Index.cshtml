@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ColegioRM.ModelsE.Alumnos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <style>
+        body {
+            background-image: url("~/img/escudo.png");
+            background-color: #93B874;
+        }
+    </style>
+
+
+    <h2>Lista de Alumnos</h2>
+
+    <p>
+        @Html.ActionLink(" Nuevo Alumno", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.codAlumno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apPaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apMaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateNac)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sexo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apoderado.codApoderado)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.codAlumno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.apPaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.apMaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.correo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateNac)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sexo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apoderado.codApoderado)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.idAlumno }) |
+                    @Html.ActionLink("Ver", "Details", new { id = item.idAlumno }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.idAlumno })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

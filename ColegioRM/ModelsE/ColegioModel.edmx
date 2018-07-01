@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ColegioRMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumnos">
+          <Key>
+            <PropertyRef Name="idAlumno" />
+          </Key>
+          <Property Name="idAlumno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codAlumno" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="apPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="9" />
+          <Property Name="dateNac" Type="date" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="150" />
+          <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="idApoderado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Apoderado">
+          <Key>
+            <PropertyRef Name="idApoderado" />
+          </Key>
+          <Property Name="idApoderado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codApoderado" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="apPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="9" />
+          <Property Name="dateNac" Type="date" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="150" />
+          <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CursoAlumno">
+          <Key>
+            <PropertyRef Name="idAlumno" />
+            <PropertyRef Name="idCurso" />
+          </Key>
+          <Property Name="idAlumno" Type="int" Nullable="false" />
+          <Property Name="idCurso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cursos">
+          <Key>
+            <PropertyRef Name="idCurso" />
+          </Key>
+          <Property Name="idCurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codCurso" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="nomCurso" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="grado" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="seccion" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="idAlumno" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codUsuario" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="contrasena" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="apPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="9" />
+          <Property Name="dateNac" Type="date" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="150" />
+          <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Alumno">
+          <End Role="Apoderado" Type="Self.Apoderado" Multiplicity="1" />
+          <End Role="Alumnos" Type="Self.Alumnos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apoderado">
+              <PropertyRef Name="idApoderado" />
+            </Principal>
+            <Dependent Role="Alumnos">
+              <PropertyRef Name="idApoderado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Curso">
+          <End Role="Alumnos" Type="Self.Alumnos" Multiplicity="0..1" />
+          <End Role="Cursos" Type="Self.Cursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumnos">
+              <PropertyRef Name="idAlumno" />
+            </Principal>
+            <Dependent Role="Cursos">
+              <PropertyRef Name="idAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursoAlumno">
+          <End Role="Alumnos" Type="Self.Alumnos" Multiplicity="1" />
+          <End Role="CursoAlumno" Type="Self.CursoAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumnos">
+              <PropertyRef Name="idAlumno" />
+            </Principal>
+            <Dependent Role="CursoAlumno">
+              <PropertyRef Name="idAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursoAlumno_idCurso">
+          <End Role="Cursos" Type="Self.Cursos" Multiplicity="1" />
+          <End Role="CursoAlumno" Type="Self.CursoAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cursos">
+              <PropertyRef Name="idCurso" />
+            </Principal>
+            <Dependent Role="CursoAlumno">
+              <PropertyRef Name="idCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ColegioRMModelStoreContainer">
+          <EntitySet Name="Alumnos" EntityType="Self.Alumnos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Apoderado" EntityType="Self.Apoderado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CursoAlumno" EntityType="Self.CursoAlumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cursos" EntityType="Self.Cursos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alumno" Association="Self.FK_Alumno">
+            <End Role="Apoderado" EntitySet="Apoderado" />
+            <End Role="Alumnos" EntitySet="Alumnos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Curso" Association="Self.FK_Curso">
+            <End Role="Alumnos" EntitySet="Alumnos" />
+            <End Role="Cursos" EntitySet="Cursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursoAlumno" Association="Self.FK_CursoAlumno">
+            <End Role="Alumnos" EntitySet="Alumnos" />
+            <End Role="CursoAlumno" EntitySet="CursoAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursoAlumno_idCurso" Association="Self.FK_CursoAlumno_idCurso">
+            <End Role="Cursos" EntitySet="Cursos" />
+            <End Role="CursoAlumno" EntitySet="CursoAlumno" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ColegioRMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Apoderado">
+          <Key>
+            <PropertyRef Name="idApoderado" />
+          </Key>
+          <Property Name="idApoderado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codApoderado" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="dateNac" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Alumnos" Relationship="ColegioRMModel.FK_Alumno" FromRole="Apoderado" ToRole="Alumnos" />
+        </EntityType>
+        <EntityType Name="Cursos">
+          <Key>
+            <PropertyRef Name="idCurso" />
+          </Key>
+          <Property Name="idCurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codCurso" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nomCurso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="grado" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="seccion" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idAlumno" Type="Int32" />
+          <NavigationProperty Name="Alumnos" Relationship="ColegioRMModel.FK_Curso" FromRole="Cursos" ToRole="Alumnos" />
+          <NavigationProperty Name="Alumnos1" Relationship="ColegioRMModel.CursoAlumno" FromRole="Cursos" ToRole="Alumnos" />
+          </EntityType>
+        <EntityContainer Name="ColegioRMEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Apoderado" EntityType="Self.Apoderado" />
+          <EntitySet Name="Cursos" EntityType="Self.Cursos" />
+          <EntitySet Name="Alumnos" EntityType="ColegioRMModel.Alumnos" />
+          <AssociationSet Name="FK_Alumno" Association="ColegioRMModel.FK_Alumno">
+            <End Role="Apoderado" EntitySet="Apoderado" />
+            <End Role="Alumnos" EntitySet="Alumnos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Curso" Association="ColegioRMModel.FK_Curso">
+            <End Role="Alumnos" EntitySet="Alumnos" />
+            <End Role="Cursos" EntitySet="Cursos" />
+          </AssociationSet>
+          <AssociationSet Name="CursoAlumno" Association="ColegioRMModel.CursoAlumno">
+            <End Role="Alumnos" EntitySet="Alumnos" />
+            <End Role="Cursos" EntitySet="Cursos" />
+          </AssociationSet>
+          <EntitySet Name="Usuario" EntityType="ColegioRMModel.Usuario" />
+          </EntityContainer>
+        <EntityType Name="Alumnos">
+          <Key>
+            <PropertyRef Name="idAlumno" />
+          </Key>
+          <Property Name="idAlumno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codAlumno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="apPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apMaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombres" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="dateNac" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="idApoderado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Apoderado" Relationship="ColegioRMModel.FK_Alumno" FromRole="Alumnos" ToRole="Apoderado" />
+          <NavigationProperty Name="Cursos" Relationship="ColegioRMModel.FK_Curso" FromRole="Alumnos" ToRole="Cursos" />
+          <NavigationProperty Name="Cursos1" Relationship="ColegioRMModel.CursoAlumno" FromRole="Alumnos" ToRole="Cursos" />
+        </EntityType>
+        <Association Name="FK_Alumno">
+          <End Type="ColegioRMModel.Apoderado" Role="Apoderado" Multiplicity="1" />
+          <End Type="ColegioRMModel.Alumnos" Role="Alumnos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Apoderado">
+              <PropertyRef Name="idApoderado" />
+            </Principal>
+            <Dependent Role="Alumnos">
+              <PropertyRef Name="idApoderado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Curso">
+          <End Type="ColegioRMModel.Alumnos" Role="Alumnos" Multiplicity="0..1" />
+          <End Type="ColegioRMModel.Cursos" Role="Cursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumnos">
+              <PropertyRef Name="idAlumno" />
+            </Principal>
+            <Dependent Role="Cursos">
+              <PropertyRef Name="idAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CursoAlumno">
+          <End Type="ColegioRMModel.Alumnos" Role="Alumnos" Multiplicity="*" />
+          <End Type="ColegioRMModel.Cursos" Role="Cursos" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codUsuario" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="contrasena" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="apPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apMaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombres" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="dateNac" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ColegioRMModelStoreContainer" CdmEntityContainer="ColegioRMEntities1">
+          <EntitySetMapping Name="Apoderado">
+            <EntityTypeMapping TypeName="ColegioRMModel.Apoderado">
+              <MappingFragment StoreEntitySet="Apoderado">
+                <ScalarProperty Name="idApoderado" ColumnName="idApoderado" />
+                <ScalarProperty Name="codApoderado" ColumnName="codApoderado" />
+                <ScalarProperty Name="apPaterno" ColumnName="apPaterno" />
+                <ScalarProperty Name="apMaterno" ColumnName="apMaterno" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="dateNac" ColumnName="dateNac" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cursos">
+            <EntityTypeMapping TypeName="ColegioRMModel.Cursos">
+              <MappingFragment StoreEntitySet="Cursos">
+                <ScalarProperty Name="idCurso" ColumnName="idCurso" />
+                <ScalarProperty Name="codCurso" ColumnName="codCurso" />
+                <ScalarProperty Name="nomCurso" ColumnName="nomCurso" />
+                <ScalarProperty Name="grado" ColumnName="grado" />
+                <ScalarProperty Name="seccion" ColumnName="seccion" />
+                <ScalarProperty Name="idAlumno" ColumnName="idAlumno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alumnos">
+            <EntityTypeMapping TypeName="ColegioRMModel.Alumnos">
+              <MappingFragment StoreEntitySet="Alumnos">
+                <ScalarProperty Name="idApoderado" ColumnName="idApoderado" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="dateNac" ColumnName="dateNac" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apMaterno" ColumnName="apMaterno" />
+                <ScalarProperty Name="apPaterno" ColumnName="apPaterno" />
+                <ScalarProperty Name="codAlumno" ColumnName="codAlumno" />
+                <ScalarProperty Name="idAlumno" ColumnName="idAlumno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CursoAlumno" TypeName="ColegioRMModel.CursoAlumno" StoreEntitySet="CursoAlumno">
+            <EndProperty Name="Cursos">
+              <ScalarProperty Name="idCurso" ColumnName="idCurso" />
+            </EndProperty>
+            <EndProperty Name="Alumnos">
+              <ScalarProperty Name="idAlumno" ColumnName="idAlumno" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="ColegioRMModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="dateNac" ColumnName="dateNac" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apMaterno" ColumnName="apMaterno" />
+                <ScalarProperty Name="apPaterno" ColumnName="apPaterno" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
